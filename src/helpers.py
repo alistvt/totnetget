@@ -1,4 +1,10 @@
+import json
 import subprocess
+
+
+def write_to_file(data):
+    with open(OFFSET_PATH, 'w') as f:
+        f.write(json.dumps(data))
 
 
 def get_net_usage(format):
@@ -19,3 +25,17 @@ def get_net_usage(format):
         return round(recieved/1e6, 3), round(transferred/1e6, 3), round(total/1e6, 3)
     elif format == 'GB':
         return round(recieved/1e9, 3), round(transferred/1e9, 3), round(total/1e9, 3)
+
+
+if __name__ != "__main__":
+    OFFSET_PATH = "/root/totnetget/offset.json"
+    OFFSET = {
+        "recieved": 0,
+        "transferred": 0,
+        "total": 0
+    }
+    try:
+        with open(OFFSET_PATH, 'r') as f:
+            OFFSET = json.loads(f.read())
+    except FileNotFoundError:
+        pass
