@@ -5,7 +5,7 @@ logging.basicConfig(filename='app.log', format='%(asctime)s - %(name)s - %(level
 
 from flask import Flask, request, jsonify
 
-from helpers import get_net_usage, write_to_file, OFFSET
+from helpers import get_net_usage, OFFSET
 
 
 app = Flask(__name__)
@@ -13,14 +13,12 @@ app = Flask(__name__)
 @app.route('/get-usage')
 def index():
     try:
-        # format = request.args.get('format', 'B')
         rc, tr, ttl = get_net_usage("GB")
         data = {
             "recieved": rc + OFFSET["recieved"],
             "transferred": tr + OFFSET["transferred"],
             "total": ttl + OFFSET["total"]
         }
-        write_to_file(data)
         return jsonify(data)
         
     except Exception as e:

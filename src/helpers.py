@@ -7,7 +7,7 @@ def write_to_file(data):
         f.write(json.dumps(data))
 
 
-def get_net_usage(format):
+def get_net_usage(format="GB"):
     proc = subprocess.run(f"cat /proc/net/dev", shell=True, capture_output=True)
 
     data = proc.stdout
